@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:asset_tracker/widgets/my_button.dart';
@@ -18,12 +19,14 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final emailController = TextEditingController();
+  final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
     emailController.dispose();
+    usernameController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
     super.dispose();
@@ -74,11 +77,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (!mounted) return;
       Navigator.of(context).pop();
 
+      if (emailController.text.isEmpty || usernameController.text.isEmpty) {
+        return showErrorMessage(context, 'Email & Username cannot be empty.');
+      }
+
       if (passwordController.text == confirmPasswordController.text) {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        final userCredential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text,
           password: passwordController.text,
         );
+
+        await FirebaseFirestore.instance
+            .collection('assets')
+            .doc(userCredential.user!.uid)
+            .set({
+          'username': usernameController.text,
+          'email': emailController.text,
+        });
       } else {
         dialogPasswordNotMatch();
       }
@@ -100,7 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const Center(
                 child: Icon(
                   Icons.lock,
-                  size: 100,
+                  size: 60,
                 ),
               ),
               const SizedBox(height: 50),
@@ -112,6 +128,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
               MyTextfield(
                 controller: emailController,
                 hintText: 'Email',
+                obscureText: false,
+              ),
+              const SizedBox(height: 10),
+              MyTextfield(
+                controller: usernameController,
+                hintText: 'Username',
                 obscureText: false,
               ),
               const SizedBox(height: 10),
