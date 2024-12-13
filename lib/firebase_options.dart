@@ -41,46 +41,46 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCM6n7UxiGuuBPAitxM7c1loNXKBP4J-fc',
-    appId: '1:249160825366:web:c35904035bb02fc0089337',
-    messagingSenderId: '249160825366',
-    projectId: 'asset-tracker-b3812',
-    authDomain: 'asset-tracker-b3812.firebaseapp.com',
-    storageBucket: 'asset-tracker-b3812.firebasestorage.app',
+    apiKey: '[]',
+    appId: '[]',
+    messagingSenderId: '[]',
+    projectId: '[]',
+    authDomain: '[]',
+    storageBucket: '[]',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyANOG-vi7apxSc6cVss1eyaIAFovYCmWWk',
-    appId: '1:249160825366:android:9142dcef3511d7e0089337',
-    messagingSenderId: '249160825366',
-    projectId: 'asset-tracker-b3812',
-    storageBucket: 'asset-tracker-b3812.firebasestorage.app',
+    apiKey: '[]',
+    appId: '[]',
+    messagingSenderId: '[]',
+    projectId: '[]',
+    storageBucket: '[]',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBBkL1ErOeJ9Xe1PJs4kjDuf8rAH6im9Yo',
-    appId: '1:249160825366:ios:f09f61309fcc9501089337',
-    messagingSenderId: '249160825366',
-    projectId: 'asset-tracker-b3812',
-    storageBucket: 'asset-tracker-b3812.firebasestorage.app',
+    apiKey: '[]',
+    appId: '[]',
+    messagingSenderId: '[]',
+    projectId: '[]',
+    storageBucket: '[]',
     iosBundleId: 'com.example.assetTracker',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBBkL1ErOeJ9Xe1PJs4kjDuf8rAH6im9Yo',
-    appId: '1:249160825366:ios:f09f61309fcc9501089337',
-    messagingSenderId: '249160825366',
-    projectId: 'asset-tracker-b3812',
-    storageBucket: 'asset-tracker-b3812.firebasestorage.app',
+    apiKey: '[]',
+    appId: '[]',
+    messagingSenderId: '[]',
+    projectId: '[]',
+    storageBucket: '[]',
     iosBundleId: 'com.example.assetTracker',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyCM6n7UxiGuuBPAitxM7c1loNXKBP4J-fc',
-    appId: '1:249160825366:web:86fc05740072a227089337',
-    messagingSenderId: '249160825366',
-    projectId: 'asset-tracker-b3812',
-    authDomain: 'asset-tracker-b3812.firebaseapp.com',
-    storageBucket: 'asset-tracker-b3812.firebasestorage.app',
+    apiKey: '[]',
+    appId: '[]',
+    messagingSenderId: '[]',
+    projectId: '[]',
+    authDomain: '[]',
+    storageBucket: '[]',
   );
 }
