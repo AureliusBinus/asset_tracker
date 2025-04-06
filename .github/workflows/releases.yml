@@ -46,7 +46,7 @@ jobs:
           force_orphan: true
 
   build-apps:
-    name: Build Flutter Apps (APK + Desktop)
+    name: Build Flutter Apps
     strategy:
       matrix:
         include:
@@ -66,6 +66,7 @@ jobs:
 
       - name: Extract Flutter version from pubspec.yaml
         id: flutter-version
+        shell: bash
         run: |
           FLUTTER_VERSION=$(grep "flutter:" pubspec.yaml | awk '{print $2}')
           echo "FLUTTER_VERSION=$FLUTTER_VERSION" >> $GITHUB_ENV
