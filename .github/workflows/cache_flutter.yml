@@ -1,7 +1,7 @@
 name: Cache Flutter Dependencies
 
 on:
-  workflow_dispatch:  # Manually triggered
+  workflow_dispatch:  # Manual trigger only
 
 jobs:
   cache-flutter:
@@ -11,23 +11,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Extract Flutter version from pubspec.yaml
-        id: flutter-version
-        run: |
-          FLUTTER_VERSION=$(grep '^  flutter:' pubspec.yaml | sed 's/.*flutter: *//')
-          if [ -z "$FLUTTER_VERSION" ]; then
-            echo "Flutter version not found in pubspec.yaml"
-            exit 1
-          fi
-          echo "FLUTTER_VERSION=$FLUTTER_VERSION" >> $GITHUB_ENV
-
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: stable
-          flutter-version: "${{ env.FLUTTER_VERSION }}"
+          channel: stable  # You can change this to 'beta', 'master', etc.
 
-      - name: Cache Flutter dependencies
+      - name: Restore Flutter pub-cache
         uses: actions/cache@v3
         with:
           path: |
@@ -38,3 +27,6 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+
+      - name: Show cached packages
+        run: ls ~/.pub-cache
