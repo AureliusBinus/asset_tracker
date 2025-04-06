@@ -1,0 +1,69 @@
+name: Flutter Multi-Platform Build to GitHub Releases
+
+on:
+  workflow_dispatch:  # Manual trigger to teach controlled CI/CD
+
+jobs:
+  build:
+    name: Build Flutter Apps
+    runs-on: ubuntu-latest  # GitHub-hosted Linux runner
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: stable
+          channel: stable
+
+      - name: Enable Flutter desktop support
+        run: |
+          flutter config --enable-linux-desktop
+          flutter config --enable-macos-desktop
+          flutter config --enable-windows-desktop
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Optional: Cache pub packages
+      - name: Cache Flutter pub-cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.pub-cache
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: ${{ runner.os }}-flutter-
+
+      - name: Build Android APK
+        run: flutter build apk --release
+
+      - name: Build Windows EXE
+        run: flutter build windows
+
+      - name: Build Linux App
+        run: flutter build linux
+
+      # macOS and iOS require macOS runners
+  release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Upload release to GitHub
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: flutter-build-${{ github.run_number }}
+          name: "Flutter Multi-Platform Build #${{ github.run_number }}"
+          files: |
+            build/app/outputs/flutter-apk/app-release.apk
+            build/windows/runner/Release/*.exe
+            build/linux/runner/*
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
