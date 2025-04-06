@@ -12,12 +12,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Extract Flutter version from pubspec.yaml  # Extract the Flutter version from pubspec.yaml
+        id: flutter-version                              # Save the extracted version to the environment file
+        run: |
+          FLUTTER_VERSION=$(grep "flutter:" pubspec.yaml | awk '{print $2}')  
+          echo "FLUTTER_VERSION=$FLUTTER_VERSION" >> $GITHUB_ENV  
+        # version error handling 
+      
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
-        with:
-          flutter-version: stable
-          channel: stable
-
+        with:        
+          channel: stable  # Use the stable Flutter channel
+          flutter-version: "${{ env.FLUTTER_VERSION }}"  # Use the extracted Flutter version
+          
       - name: Enable Flutter desktop support
         run: |
           flutter config --enable-linux-desktop
