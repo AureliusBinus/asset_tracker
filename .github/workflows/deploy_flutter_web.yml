@@ -14,9 +14,14 @@ jobs:
       - name: Extract Flutter version from pubspec.yaml  # Extract the Flutter version from pubspec.yaml
         id: flutter-version                              # Save the extracted version to the environment file
         run: |
-          FLUTTER_VERSION=$(grep "flutter:" pubspec.yaml | awk '{print $2}')  
+          FLUTTER_VERSION=$(grep '^  flutter:' pubspec.yaml | sed 's/.*flutter: *//') 
+          if [ -z "$FLUTTER_VERSION" ]; then
+            echo "Flutter version not found in pubspec.yaml" 
+            exit 1
+          fi  
           echo "FLUTTER_VERSION=$FLUTTER_VERSION" >> $GITHUB_ENV  
-
+        # version error handling 
+      
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:        
